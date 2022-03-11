@@ -21,16 +21,19 @@ https.get('https://mindicador.cl/api', (resp) => {
 
         let conversorData = JSON.parse(data);
         resultado = Number((cantidad / conversorData[`${indicador}`].valor).toFixed(2));
-
-        fs.writeFile(`${nombreArchivo}.${extension}`, `A la fecha: ${fecha}
-        Fue realizada cotización con los siguientes datos:
-        Cantidad de pesos a convertir: ${cantidad}
-        Convertido a ${indicador} da un total de: ${resultado}`, 'utf8', () => {
-            console.log('archivo creado con exito');
-            }    
-        );
+        conversion(nombreArchivo, extension, fecha, cantidad, indicador, resultado);
     });
     
 }).on("error", (err) => {
     console.log("Error: " + err.message);
 });
+
+let conversion = (nombreArchivo, extension, fecha, cantidad, indicador, resultado) => {
+    fs.writeFile(`${nombreArchivo}.${extension}`, `A la fecha: ${fecha}
+        Fue realizada cotización con los siguientes datos:
+        Cantidad de pesos a convertir: ${cantidad}
+        Convertido a ${indicador} da un total de: ${resultado}`, 'utf8', () => {
+            console.log('archivo creado con exito');
+        }    
+    );
+}
