@@ -9,17 +9,18 @@ let extension = argumento[1];
 let indicador = argumento[2];
 let cantidad = Number(argumento[3]);
 let fecha = new Date();
+let resultado = '';
 
 https.get('https://mindicador.cl/api', (resp) => {
     let data = '';
     resp.on('data', function (respuestaDatos) {
         data += respuestaDatos;
-        // data = data + respuestaDatos;
+
     })
     resp.on('end', () => {
-        //console.log(JSON.parse(data));
+
         let conversorData = JSON.parse(data);
-        let resultado = Number((cantidad / conversorData[`${indicador}`].valor).toFixed(2));
+        resultado = Number((cantidad / conversorData[`${indicador}`].valor).toFixed(2));
 
         fs.writeFile(`${nombreArchivo}.${extension}`, `A la fecha: ${fecha}
         Fue realizada cotización con los siguientes datos:
@@ -29,6 +30,7 @@ https.get('https://mindicador.cl/api', (resp) => {
             }    
         );
     });
+    
 }).on("error", (err) => {
     console.log("Error: " + err.message);
 });
